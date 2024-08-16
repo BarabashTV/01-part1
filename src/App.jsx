@@ -56,15 +56,15 @@ const App = () => {
         </p>
       </section>
       <section className="greetings">
+        <hr />
         <h1>Greetings</h1>
         <Hello name="Heikki" town="Helsinki" age="15" />
         <Hello name="Maija" town="Oulu" age={26 + 10} />
         <Hello name={nimi} town="Juväskylä" age={ika} />
       </section>
-
       <hr />
       <Ystavat friends={friends} />
-      <hr />
+
       <Footer />
     </>
   );
