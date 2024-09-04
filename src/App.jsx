@@ -17,13 +17,19 @@ const Hello = ({ name, age, town }) => {
   );
 };
 
-const Display = (props) => {
-  return <div>{props.counter}</div>;
+const Display = ({ counter }) => <div>{counter}</div>;
+
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>{text}</button>
+);
+
+const History = (props) => {
+  if (props.allClicks.lenght === 0) {
+    return <div>the app is used by pressing the buttons</div>;
+  }
+  return <div>button press history: {props.allClicks.join(" ")}</div>;
 };
 
-const Button = (props) => {
-  return <button onClick={props.handleClick}>{props.text}</button>;
-};
 const Ystavat = ({ friends }) => {
   return (
     <>
@@ -72,11 +78,9 @@ const App = () => {
   };
   const [counter, setCounter] = useState(0);
   console.log("rendering with counter value", counter);
-
   /*const handleClick = () => {
     console.log("clicked");
   };*/
-
   const increaseByOne = () => {
     console.log("increasing, value before", counter);
     setCounter(counter + 1);
@@ -85,15 +89,43 @@ const App = () => {
     console.log("decreasing, value before", counter);
     setCounter(counter - 1);
   };
-
   const setToZero = () => {
     console.log("resetting to zero, value before", counter);
     setCounter(0);
   };
-
   setTimeout(() => setCounter(counter + 1), 1000);
-
   console.log("rendering...", counter);
+
+  const [left, setLeft] = useState(0);
+  const [right, setRight] = useState(0);
+  const [allClicks, setAll] = useState([]);
+  /*const [total, setTotal] = useState(0);*/
+
+  const [clicks, setClicks] = useState({
+    left: 0,
+    right: 0,
+  });
+
+  /*const handleLeftClick = () => setClicks({ ...clicks, left: clicks.left + 1 });
+
+  const handleRightClick = () =>
+    setClicks({ ...clicks, right: clicks.right + 1 });*/
+
+  const handleLeftClick = () => {
+    setAll(allClicks.concat("L"));
+    setLeft(left + 1);
+    /*const updatedLeft = left + 1;
+    setLeft(updatedLeft);
+    setTotal(updatedLeft + right);*/
+  };
+
+  const handleRightClick = () => {
+    setAll(allClicks.concat("R"));
+    setRight(right + 1);
+    /*const updatedRight = right + 1;
+    setRight(updatedRight);
+    setTotal(updatedRight + left);*/
+  };
 
   return (
     <>
@@ -117,9 +149,20 @@ const App = () => {
       <Button handleClick={increaseByOne} text="plus" />
       <Button handleClick={setToZero} text="zero" />
       <Button handleClick={decreaseByOne} text="minus" />
+      <hr />
+      <div>
+        {left}
+        <Button handleClick={handleLeftClick} text="left" />
+        <Button handleClick={handleRightClick} text="right" />
+        {right}
+        <History allClicks={allClicks} />
+      </div>
       <Footer />
     </>
   );
 };
 
 export default App;
+
+/*<p>{allClicks.join(" ")}</p>
+<p>total {total}</p>*/
